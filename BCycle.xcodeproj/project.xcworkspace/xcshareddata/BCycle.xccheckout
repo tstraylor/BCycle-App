@@ -7,32 +7,32 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>4EE12324-1226-4976-A194-A6BC79878CDA</string>
 	<key>IDESourceControlProjectName</key>
-	<string>BCycle</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F566F67A56D299B833DE152D7CC8A795EDA0218C</key>
-		<string>https://bitbucket.org/tstraylor/bcycle.git</string>
+		<key>8339E932D385A6552B5265745BD4546E8E404DBE</key>
+		<string>https://github.com/tstraylor/BCycle-App.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BCycle.xcodeproj</string>
+	<string>BCycle.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F566F67A56D299B833DE152D7CC8A795EDA0218C</key>
+		<key>8339E932D385A6552B5265745BD4546E8E404DBE</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/tstraylor/bcycle.git</string>
+	<string>https://github.com/tstraylor/BCycle-App.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F566F67A56D299B833DE152D7CC8A795EDA0218C</string>
+	<string>8339E932D385A6552B5265745BD4546E8E404DBE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F566F67A56D299B833DE152D7CC8A795EDA0218C</string>
+			<string>8339E932D385A6552B5265745BD4546E8E404DBE</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BCycle</string>
 		</dict>

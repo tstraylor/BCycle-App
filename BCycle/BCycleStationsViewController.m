@@ -33,7 +33,7 @@
 #define METERS_PER_MILE 1609.344
 #endif
 
-@interface BCycleStationsViewController () <UIPopoverPresentationControllerDelegate>
+@interface BCycleStationsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *launchImageView;
 
@@ -44,7 +44,6 @@
 @property (nonatomic) BOOL userInteractionCausedRegionChange;
 @property (nonatomic) MKMapRect currentSearchRect;
 @property (nonatomic) MKCoordinateSpan currentSearchSpan;
-@property (nonatomic, strong) UIPopoverController *popover;
 
 - (void)addAnnotationsForRegion:(MKCoordinateRegion)region;
 - (MKMapRect)createRectForRegion:(MKCoordinateRegion)region;
@@ -99,6 +98,12 @@
     
     // fade the launch screen out
     self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBar.tintColor = [UIColor redColor];
+    
+    NSDictionary *textAttributes = @{NSForegroundColorAttributeName : [UIColor redColor],
+                                     NSBackgroundColorAttributeName : [UIColor redColor]};
+    
+    self.navigationController.navigationBar.titleTextAttributes = textAttributes;
     self.mapView.hidden = YES;
     [UIView animateWithDuration:2.0f animations:^{
         
@@ -255,7 +260,7 @@
             pin.canShowCallout = YES;
             pin.enabled = YES;
             pin.draggable = NO;
-            pin.pinColor = MKPinAnnotationColorRed;
+            pin.pinTintColor = [MKPinAnnotationView redPinColor];
             
             if([mapView.delegate respondsToSelector:@selector(mapView:annotationView:calloutAccessoryControlTapped:)])
             {

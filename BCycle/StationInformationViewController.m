@@ -45,7 +45,7 @@
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     [snapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
         
-        NSLog(@"[%@ %@] snap shotter", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        //NSLog(@"[%@ %@] snap shotter", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
         if(error)
             NSLog(@"[%@ %@] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
         

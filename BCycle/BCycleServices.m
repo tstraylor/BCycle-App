@@ -43,29 +43,13 @@
  );
  */
 
-// the ip and port of the station api server
-static NSString *ipPort = @"192.168.1.143:8080";
-
-@interface BCycleServices()
-
-@property(strong, nonatomic) NSOperationQueue *stationQueue;
-
-@end
+// the ip and port of the bcycle api server
+static NSString *ipPort = @"192.168.99.100:8080";
 
 @implementation BCycleServices
 
-@synthesize stationQueue = _stationQueue;
 
 #pragma mark - Setting
-
-- (NSOperationQueue *)stationQueue
-{
-    if (!_stationQueue) {
-        _stationQueue = [[NSOperationQueue alloc] init];
-    }
-    
-    return _stationQueue;
-}
 
 - (id)init
 {
@@ -75,26 +59,26 @@ static NSString *ipPort = @"192.168.1.143:8080";
 
 - (void)getStationsWithCompletion:(StationCompletionBlock)completion
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/stations", ipPort]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/station", ipPort]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"GET";
-    [NSURLConnection sendAsynchronousRequest:stationRequest
-                                       queue:self.stationQueue
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               //NSLog(@"[%@ %@] data: %s", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [data bytes]);
-                               if(data.length > 0 && !connectionError)
-                               {
-                                   NSError *jsonError = nil;
-                                   NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                          options:NSJSONReadingMutableContainers
-                                                                                            error:&jsonError];
-                                   completion(stationData, connectionError);
-                                   
-                               }
-                               else
-                                   completion(nil, connectionError);
-                           }];
-
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data.length > 0 && !error)
+        {
+            NSError *jsonError = nil;
+            NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:NSJSONReadingMutableContainers
+                                                                     error:&jsonError];
+            completion(stationData, error);
+            
+        }
+        else
+            completion(nil, error);
+    }];
+    
+    [task resume];
 }
 
 - (void)getStationsInRegion:(MKCoordinateRegion)region withCompletion:(StationCompletionBlock)completion
@@ -103,35 +87,27 @@ static NSString *ipPort = @"192.168.1.143:8080";
     NSNumber *lat2 = [NSNumber numberWithDouble:(region.center.latitude + region.span.latitudeDelta)];
     NSNumber *long1 = [NSNumber numberWithDouble:(region.center.longitude - region.span.longitudeDelta)];
     NSNumber *long2 = [NSNumber numberWithDouble:(region.center.longitude + region.span.longitudeDelta)];
-    
-    NSDictionary *data = @{@"StartLat": lat1,
-                           @"EndLat": lat2,
-                           @"StartLong": long1,
-                           @"EndLong": long2};
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/stationInRegion", ipPort]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/station?start_lat=%@&end_lat=%@&start_lon=%@&end_lon=%@", ipPort, lat1, lat2, long1, long2]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
-    stationRequest.HTTPMethod = @"POST";
-    [stationRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    stationRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+    stationRequest.HTTPMethod = @"GET";
     
-    [NSURLConnection sendAsynchronousRequest:stationRequest
-                                       queue:self.stationQueue
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               //NSLog(@"[%@ %@] data: %s", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [data bytes]);
-                               if(data.length > 0 && !connectionError)
-                               {
-                                   NSError *jsonError = nil;
-                                   NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                          options:NSJSONReadingMutableContainers
-                                                                                            error:&jsonError];
-                                   completion(stationData, connectionError);
-                                   
-                               }
-                               else
-                                   completion(nil, connectionError);
-                           }];
-        
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data.length > 0 && !error)
+        {
+            NSError *jsonError = nil;
+            NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options:NSJSONReadingMutableContainers
+                                                                     error:&jsonError];
+            completion(stationData, error);
+            
+        }
+        else
+            completion(nil, error);
+    }];
+    
+    [task resume];
 }
 
 @end
