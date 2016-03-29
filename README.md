@@ -3,7 +3,7 @@ BCycle
 
 iOS BCycle application.
 
-This app was created to test out the use of REST APIs.
+This app was created to test out the use of REST APIs. This app uses the [Docker BCycle API](https://github.com/tstraylor/DockerBCycleAPI_MySQL).
 
 ### Creators
 
