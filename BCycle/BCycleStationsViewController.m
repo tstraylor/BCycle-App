@@ -40,6 +40,7 @@
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) CLPlacemark *currentPlacemark;
 @property (nonatomic, strong) BCycleServices *bcycleServcies;
 @property (nonatomic) BOOL userInteractionCausedRegionChange;
 @property (nonatomic) MKMapRect currentSearchRect;
@@ -57,8 +58,7 @@
 
 #pragma mark - Setters
 
-- (CLLocationManager*)locationManager
-{
+- (CLLocationManager*)locationManager {
     if (_locationManager == nil) {
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
@@ -70,8 +70,7 @@
     return _locationManager;
 }
 
-- (BCycleServices*)bcycleServcies
-{
+- (BCycleServices*)bcycleServcies {
     if (_bcycleServcies == nil) {
         _bcycleServcies = [[BCycleServices alloc] init];
     }
@@ -122,21 +121,27 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     self.currentLocation = [locations lastObject];
     
     // once we know where we are, we don't need to keep the location services running,
     // so stop it
     [self.locationManager stopUpdatingLocation];
+    
+    // save our current Placemark.
+    CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:self.currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        if(error == nil) {
+            self.currentPlacemark = [placemarks objectAtIndex:0];
+        }
+    }];
     
     // remove the annotations if there are any
     [self.mapView removeAnnotations:self.mapView.annotations];
@@ -150,13 +155,12 @@
     [self addAnnotationsForRegion:searchRegion];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
     if(error)
         NSLog(@"[%@ %@] error: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [error localizedDescription]);
     
-    if ([error code] != kCLErrorLocationUnknown)
-    {
+    if ([error code] != kCLErrorLocationUnknown) {
         [self.locationManager stopUpdatingLocation];
         // since we only have data for Denver, we'll center the map there
         self.mapView.centerCoordinate = CLLocationCoordinate2DMake(39.758202, -105.001359);
@@ -164,10 +168,9 @@
     
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    switch (status)
-    {
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+   
+    switch (status) {
         case kCLAuthorizationStatusNotDetermined:
         case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusAuthorizedWhenInUse:
@@ -187,38 +190,30 @@
 
 #pragma mark - MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-{
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     //self.mapView.centerCoordinate = userLocation.coordinate;
     MKCoordinateRegion region = [self createViewableRegionForLocation:userLocation.coordinate andDistance:0.5f];
     [self.mapView setRegion:region animated:YES];
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
-{
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
     UIView* view = mapView.subviews.firstObject;
     // check to see if the user is interacting with the map
-    for(UIGestureRecognizer* recognizer in view.gestureRecognizers)
-    {
-        if(recognizer.state == UIGestureRecognizerStateBegan || recognizer.state == UIGestureRecognizerStateEnded)
-        {
+    for(UIGestureRecognizer* recognizer in view.gestureRecognizers) {
+        if(recognizer.state == UIGestureRecognizerStateBegan || recognizer.state == UIGestureRecognizerStateEnded) {
             self.userInteractionCausedRegionChange = YES;
             break;
         }
     }
 }
 
--(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
-{
-    if(self.userInteractionCausedRegionChange)
-    {
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    if(self.userInteractionCausedRegionChange) {
         self.userInteractionCausedRegionChange = NO;
         MKMapPoint mapPoint = MKMapPointForCoordinate(mapView.region.center);
-        if (MKMapRectContainsPoint(self.currentSearchRect, mapPoint))
-        {
+        if (MKMapRectContainsPoint(self.currentSearchRect, mapPoint)) {
             MKMapRect viewableRect = [self createRectForRegion:mapView.region];
-            if (!MKMapRectContainsRect(self.currentSearchRect, viewableRect))
-            {
+            if (!MKMapRectContainsRect(self.currentSearchRect, viewableRect)) {
                 // the user has zoomed out but the viewable region's center point is still
                 // within the current search map rect. We will use the current region center
                 // and increase the span by some precentage to create a new search region (map rect)
@@ -227,8 +222,7 @@
                 [self addAnnotationsForRegion:region];
             }
         }
-        else
-        {
+        else {
             // the user may have zoomed out, but none the less the region center is outside the
             // current search map rect. We will use the current region center and increase
             // the span by some precentage to create a new search region (map rect)
@@ -239,22 +233,18 @@
     }
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
-{
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     // the mkannotationview we'll return
     MKAnnotationView *view = nil;
     
     //if the annotation is a user location
-    if ([annotation isKindOfClass:[MKUserLocation class]])
-    {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         view = nil;
     }
-    else
-    {
+    else {
         view = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([annotation class])];
         
-        if(!view)
-        {
+        if(!view) {
             MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
                                                                        reuseIdentifier:NSStringFromClass([annotation class])];
             pin.canShowCallout = YES;
@@ -262,15 +252,13 @@
             pin.draggable = NO;
             pin.pinTintColor = [MKPinAnnotationView redPinColor];
             
-            if([mapView.delegate respondsToSelector:@selector(mapView:annotationView:calloutAccessoryControlTapped:)])
-            {
+            if([mapView.delegate respondsToSelector:@selector(mapView:annotationView:calloutAccessoryControlTapped:)]) {
                 pin.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
             }
 
             view = pin;
         }
-        else
-        {
+        else {
             // set the annotation for the view
             view.annotation = annotation;
         }
@@ -279,29 +267,29 @@
     return view;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-{
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     [self performSegueWithIdentifier:@"StationInformation" sender:view];
 }
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"StationInformation"])
-    {
-        if ([sender isKindOfClass:[MKAnnotationView class]])
-        {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"StationInformation"]) {
+        if ([sender isKindOfClass:[MKAnnotationView class]]) {
             MKAnnotationView *aView = sender;
-            if ([aView.annotation isKindOfClass:[BCycleStation class]])
-            {
+            if ([aView.annotation isKindOfClass:[BCycleStation class]]) {
                 BCycleStation *station = aView.annotation;
-                if ([segue.destinationViewController respondsToSelector:@selector(setStation:)])
-                {
+                if ([segue.destinationViewController respondsToSelector:@selector(setStation:)]) {
                     [segue.destinationViewController performSelector:@selector(setStation:)
                                                           withObject:station];
                 }
             }
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"AddStation"]) {
+        if ([segue.destinationViewController respondsToSelector:@selector(setCurrentPlacemark:)]) {
+            [segue.destinationViewController performSelector:@selector(setCurrentPlacemark:)
+                                                  withObject:self.currentPlacemark];
         }
     }
 }
@@ -313,14 +301,12 @@
     [self.bcycleServcies getStationsInRegion:region withCompletion:^(NSArray *result, NSError *error) {
         
         //NSLog(@"[%@ %@] result count: %ld", NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)result.count);
-        if(result.count > 0)
-        {
+        if(result.count > 0) {
             dispatch_queue_t geoQue = dispatch_queue_create("geoQue", 0);
             dispatch_async(geoQue, ^{
                 
                 NSMutableArray *bikes = [[NSMutableArray alloc] init];
-                for (NSDictionary *station in result)
-                {
+                for (NSDictionary *station in result) {
                     CLLocationDegrees latitude = [[station valueForKey:@"Latitude"] floatValue];
                     CLLocationDegrees longitude = [[station valueForKey:@"Longitude"] floatValue];
                     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
@@ -347,8 +333,7 @@
 
 #pragma mark - Map Regions
 
-- (MKMapRect)createRectForRegion:(MKCoordinateRegion)region
-{
+- (MKMapRect)createRectForRegion:(MKCoordinateRegion)region {
     
     MKMapPoint a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(region.center.latitude + region.span.latitudeDelta / 2.0,
                                                                       region.center.longitude - region.span.longitudeDelta / 2.0));
@@ -358,8 +343,7 @@
     return MKMapRectMake(MIN(a.x,b.x), MIN(a.y,b.y), ABS(a.x-b.x), ABS(a.y-b.y));
 }
 
-- (MKCoordinateRegion)createSearchRegionForLocation:(CLLocationCoordinate2D)coordinate andDistance:(CLLocationDistance)distance
-{
+- (MKCoordinateRegion)createSearchRegionForLocation:(CLLocationCoordinate2D)coordinate andDistance:(CLLocationDistance)distance {
     CLLocationDirection latInMeters = distance*METERS_PER_MILE;
     CLLocationDirection longInMeters = distance*METERS_PER_MILE;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coordinate, latInMeters, longInMeters);
@@ -370,8 +354,7 @@
     return region;
 }
 
-- (MKCoordinateRegion)createViewableRegionForLocation:(CLLocationCoordinate2D)coordinate andDistance:(CLLocationDistance)distance
-{
+- (MKCoordinateRegion)createViewableRegionForLocation:(CLLocationCoordinate2D)coordinate andDistance:(CLLocationDistance)distance {
     CLLocationDirection latInMeters = distance*METERS_PER_MILE;
     CLLocationDirection longInMeters = distance*METERS_PER_MILE;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coordinate, latInMeters, longInMeters);
@@ -379,32 +362,27 @@
     return region;
 }
 
-- (MKCoordinateRegion)createNewSearchRegionForRegion:(MKCoordinateRegion)region
-{
+- (MKCoordinateRegion)createNewSearchRegionForRegion:(MKCoordinateRegion)region {
     MKCoordinateSpan span = region.span;
-    if(span.latitudeDelta < self.currentSearchSpan.latitudeDelta)
-    {
+    if(span.latitudeDelta < self.currentSearchSpan.latitudeDelta) {
         // since the viewable span's latitude delta is less than
         // the search span latitude delta we'll add the diff of the two
         // to the current viewable span
         span.latitudeDelta = self.currentSearchSpan.latitudeDelta + (self.currentSearchSpan.latitudeDelta - span.latitudeDelta);
     }
-    else
-    {
+    else {
         // since the viewable span's latitude delta is larger than the search span
         // latitude delta we'll add 50% to the viewable region
         span.latitudeDelta += (span.latitudeDelta * 0.5f);
     }
     
-    if (span.longitudeDelta < self.currentSearchSpan.longitudeDelta)
-    {
+    if (span.longitudeDelta < self.currentSearchSpan.longitudeDelta) {
         // since the viewable span's longitude delta is less than
         // the search span longitude delta we'll add the diff of the two
         // to the current viewable span
         span.longitudeDelta = self.currentSearchSpan.longitudeDelta + (self.currentSearchSpan.longitudeDelta - span.longitudeDelta);
     }
-    else
-    {
+    else {
         // since the viewable span's longitude delta is larger than the search span
         // longitude delta we'll add 50% to the viewable region
         span.longitudeDelta += (span.longitudeDelta * 0.5f);
