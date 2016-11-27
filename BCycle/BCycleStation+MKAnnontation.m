@@ -27,18 +27,15 @@
 
 @implementation BCycleStation (MKAnnontation)
 
-- (CLLocationCoordinate2D)coordinate
-{
+- (CLLocationCoordinate2D)coordinate {
     return self.location;
 }
 
-- (NSString*)title
-{
+- (NSString*)title {
     return self.name;
 }
 
--(NSString *)subtitle
-{
+-(NSString *)subtitle {
     return nil;
 }
 

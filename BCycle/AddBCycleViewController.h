@@ -1,9 +1,9 @@
 //
-//  BCycleServices.h
+//  AddBCycleViewController.h
 //  BCycle
 //
-//  Created by Thomas Traylor on 9/22/14.
-//  Copyright (c) 2014 Thomas Traylor. All rights reserved.
+//  Created by Thomas Traylor on 11/25/16.
+//  Copyright © 2016 Thomas Traylor. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "BCycleStation.h"
 
-typedef void (^StationCompletionBlock)(NSArray *result, NSError *error);
-typedef void (^StationCompletionBlockWithResult)(NSDictionary *item, NSError *error);
-@interface BCycleServices : NSObject
+@interface AddBCycleViewController : UIViewController <UITextFieldDelegate>
 
-- (id)init;
-- (void)getStationsWithCompletion:(StationCompletionBlock)completion;
-- (void)getStationsInRegion:(MKCoordinateRegion)region withCompletion:(StationCompletionBlock)completion;
-- (void)createStation:(BCycleStation*)station WithCompletion:(StationCompletionBlockWithResult)completion;
+@property (strong,nonatomic) CLPlacemark *currentPlacemark;
 
 @end
