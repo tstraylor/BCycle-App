@@ -43,30 +43,39 @@
  );
  */
 
+#if !defined(METERS_PER_MILE)
+#define METERS_PER_MILE 1609.344
+#endif
+
 // the ip and port of the bcycle api server
-static NSString *ipPort = @"192.168.99.100:8080";
+static NSString *ipPort = @"192.168.1.168:8080";
+
+@interface BCycleServices()
+
+- (CLLocationDistance) maxDistance:(MKCoordinateRegion)region;
+
+@end
 
 @implementation BCycleServices
 
 
 #pragma mark - Setting
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     return self;
 }
 
-- (void)getStationsWithCompletion:(StationCompletionBlock)completion
-{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/station", ipPort]];
+- (void)getStationsWithCompletion:(StationCompletionBlock)completion {
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station", ipPort]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"GET";
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data.length > 0 && !error)
-        {
+        if(data.length > 0 && !error) {
+            
             NSError *jsonError = nil;
             NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
                                                                    options:NSJSONReadingMutableContainers
@@ -81,25 +90,23 @@ static NSString *ipPort = @"192.168.99.100:8080";
     [task resume];
 }
 
-- (void)getStationsInRegion:(MKCoordinateRegion)region withCompletion:(StationCompletionBlock)completion
-{
-    NSNumber *lat1 = [NSNumber numberWithDouble:(region.center.latitude - region.span.latitudeDelta)];
-    NSNumber *lat2 = [NSNumber numberWithDouble:(region.center.latitude + region.span.latitudeDelta)];
-    NSNumber *long1 = [NSNumber numberWithDouble:(region.center.longitude - region.span.longitudeDelta)];
-    NSNumber *long2 = [NSNumber numberWithDouble:(region.center.longitude + region.span.longitudeDelta)];
+- (void)getStationsInRegion:(MKCoordinateRegion)region withCompletion:(StationCompletionBlock)completion {
+    
+    CLLocationDistance distanceInMiles = [self maxDistance:region];
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/station?start_lat=%@&end_lat=%@&start_lon=%@&end_lon=%@", ipPort, lat1, lat2, long1, long2]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station?Latitude=%f&Longitude=%f&Distance=%f", ipPort, region.center.latitude, region.center.longitude, distanceInMiles]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"GET";
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data.length > 0 && !error)
-        {
+        if(data.length > 0 && !error) {
+            
             NSError *jsonError = nil;
             NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
                                                                    options:NSJSONReadingMutableContainers
                                                                      error:&jsonError];
+
             completion(stationData, error);
             
         }
@@ -108,6 +115,57 @@ static NSString *ipPort = @"192.168.99.100:8080";
     }];
     
     [task resume];
+}
+
+- (void)createStation:(BCycleStation*)station WithCompletion:(StationCompletionBlockWithResult)completion {
+    
+    NSError *error;
+    NSDictionary *bcycle = @{@"Name": station.name,
+                             @"Street": station.street,
+                             @"City": station.city,
+                             @"State": station.state,
+                             @"Zip": station.zip,
+                             @"Docks": station.docks,
+                             @"Latitude": [NSNumber numberWithDouble: station.location.latitude],
+                             @"Longitude": [NSNumber numberWithFloat: station.location.longitude]};
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station", ipPort]];
+    NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
+    stationRequest.HTTPMethod = @"POST";
+    [stationRequest setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
+    [stationRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    stationRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:bcycle
+                                                              options:NSJSONWritingPrettyPrinted
+                                                                error:&error];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data.length > 0 && !error) {
+            
+            NSError *jsonError = nil;
+            NSDictionary *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                        options:NSJSONReadingMutableContainers
+                                                                          error:&jsonError];
+            
+            completion(stationData, error);
+            
+        }
+        else
+            completion(nil, error);
+    }];
+    
+    [task resume];
+    
+}
+
+#pragma mark - Private Methods
+
+- (CLLocationDistance)maxDistance:(MKCoordinateRegion)region {
+
+    CLLocation *furthest = [[CLLocation alloc] initWithLatitude: (region.center.latitude + (region.span.latitudeDelta/2))
+                                                      longitude: (region.center.longitude + (region.span.longitudeDelta/2))];
+    CLLocation *centerLoc = [[CLLocation alloc] initWithLatitude: region.center.latitude
+                                                       longitude:region.center.longitude];
+    return [centerLoc distanceFromLocation:furthest] / METERS_PER_MILE;
 }
 
 @end

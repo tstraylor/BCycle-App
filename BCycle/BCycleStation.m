@@ -40,26 +40,22 @@
 
 @implementation BCycleStation
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     return self;
 }
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate
-{
+- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
     self = [super init];
     
-    if (self)
-    {
+    if (self) {
         _location = coordinate;
     }
     
     return self;
 }
 
-- (NSString*)fullAddress
-{
+- (NSString*)fullAddress {
     return [NSString stringWithFormat:@"%@, %@, %@, %@ %@", self.name, self.street, self.city, self.state, self.zip];
 }
 

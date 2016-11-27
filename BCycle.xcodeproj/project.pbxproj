@@ -15,6 +15,7 @@
 		1D40BA9019D12B50008CF6E2 /* BCycleServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D40BA8F19D12B50008CF6E2 /* BCycleServices.m */; };
 		1D43B5001A48CBEB00204622 /* StationInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D43B4FF1A48CBEB00204622 /* StationInformationViewController.m */; };
 		1D80A16D1CA3A386008079E0 /* Houston.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1D80A16C1CA3A386008079E0 /* Houston.gpx */; };
+		1DA1FE261DE8A585001E244C /* AddBCycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA1FE251DE8A585001E244C /* AddBCycleViewController.m */; };
 		1DDC03D21A4624F2002A220D /* BCycleStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC03D11A4624F2002A220D /* BCycleStation.m */; };
 		1DDC03D81A4626DC002A220D /* BCycleStation+MKAnnontation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC03D71A4626DC002A220D /* BCycleStation+MKAnnontation.m */; };
 		1DEDCE671A47733A00D51456 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDCE661A47733A00D51456 /* Images.xcassets */; };
@@ -49,6 +50,8 @@
 		1D43B4FE1A48CBEB00204622 /* StationInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationInformationViewController.h; sourceTree = "<group>"; };
 		1D43B4FF1A48CBEB00204622 /* StationInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationInformationViewController.m; sourceTree = "<group>"; };
 		1D80A16C1CA3A386008079E0 /* Houston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Houston.gpx; sourceTree = "<group>"; };
+		1DA1FE241DE8A585001E244C /* AddBCycleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBCycleViewController.h; sourceTree = "<group>"; };
+		1DA1FE251DE8A585001E244C /* AddBCycleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBCycleViewController.m; sourceTree = "<group>"; };
 		1DDC03D01A4624F2002A220D /* BCycleStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCycleStation.h; sourceTree = "<group>"; };
 		1DDC03D11A4624F2002A220D /* BCycleStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCycleStation.m; sourceTree = "<group>"; };
 		1DDC03D61A4626DC002A220D /* BCycleStation+MKAnnontation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BCycleStation+MKAnnontation.h"; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				1DDC03D11A4624F2002A220D /* BCycleStation.m */,
 				1DDC03D61A4626DC002A220D /* BCycleStation+MKAnnontation.h */,
 				1DDC03D71A4626DC002A220D /* BCycleStation+MKAnnontation.m */,
+				1DA1FE241DE8A585001E244C /* AddBCycleViewController.h */,
+				1DA1FE251DE8A585001E244C /* AddBCycleViewController.m */,
 				1D40BA7119D1230E008CF6E2 /* Main-iPhone.storyboard */,
 				1DEDCE661A47733A00D51456 /* Images.xcassets */,
 				1D40BA6719D1230E008CF6E2 /* Supporting Files */,
@@ -200,7 +205,7 @@
 		1D40BA5C19D1230E008CF6E2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Thomas Traylor";
 				TargetAttributes = {
 					1D40BA6319D1230E008CF6E2 = {
@@ -271,6 +276,7 @@
 				1DDC03D21A4624F2002A220D /* BCycleStation.m in Sources */,
 				1D43B5001A48CBEB00204622 /* StationInformationViewController.m in Sources */,
 				1DDC03D81A4626DC002A220D /* BCycleStation+MKAnnontation.m in Sources */,
+				1DA1FE261DE8A585001E244C /* AddBCycleViewController.m in Sources */,
 				1D40BA6A19D1230E008CF6E2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,8 +324,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -328,6 +336,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -340,7 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -361,8 +370,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -370,13 +381,14 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -389,8 +401,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BCycle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -403,8 +416,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BCycle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
