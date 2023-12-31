@@ -73,7 +73,12 @@
     [super viewDidAppear:animated];
     
     self.nameTextField.text = self.currentPlacemark.name;
-    self.streetTextField.text = [NSString stringWithFormat:@"%@ %@", self.currentPlacemark.subThoroughfare, self.currentPlacemark.thoroughfare];
+    if (self.currentPlacemark.subThoroughfare != nil && self.currentPlacemark.thoroughfare != nil) {
+        self.streetTextField.text = [NSString stringWithFormat:@"%@ %@", self.currentPlacemark.subThoroughfare, self.currentPlacemark.thoroughfare];
+    }
+    else {
+        self.streetTextField.text = nil;
+    }
     self.cityTextField.text = self.currentPlacemark.locality;
     self.stateTextField.text = self.currentPlacemark.administrativeArea;
     self.zipTextField.text = self.currentPlacemark.postalCode;
@@ -92,17 +97,16 @@
 
 -(void)hideKeyboard {
     
-    //NSLog(@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     [self.activeTextField resignFirstResponder];
     [self.view endEditing:YES];
 }
 
 - (void)keyboardWasShown:(NSNotification*)notification {
     
-    // get the size of the keyboard so we can move the textview up to keep the
+    // get the size of the keyboard, so we can move the textview up to keep the
     // keyboard from hiding the test input.
     NSDictionary* info = [notification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
     self.scrollView.contentInset = contentInsets;
@@ -133,7 +137,6 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     
-    //NSLog(@"[%@ %@] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), textField.text);
     self.activeTextField = nil;
     if(self.nameTextField.text.length && self.streetTextField.text.length &&
        self.streetTextField.text.length && self.stateTextField.text.length &&
@@ -150,7 +153,6 @@
 
 - (IBAction)saveButtonPressed:(UIBarButtonItem *)sender {
     
-    // NSLog(@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     // disable the save button since it was already pressed
     self.saveButtonItem.enabled = NO;
     BCycleStation *bcycle = [[BCycleStation alloc] init];
@@ -161,52 +163,44 @@
     [bcycle setState: self.stateTextField.text];
     [bcycle setZip: self.zipTextField.text];
     [bcycle setDocks: [NSNumber numberWithLong:[self.docksTextField.text integerValue]]];
-    
+
     BCycleServices *bcycleService = [[BCycleServices alloc] init];
     
     [bcycleService createStation:bcycle WithCompletion:^(NSDictionary *item, NSError *error) {
-
-        NSString *msg;
-        NSString *title;
-        if(error == nil) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
             
-            title = @"Your submission was successful.";
-            msg = @"Your BCycle Station location has been saved.";
-        }
-        else {
+            NSString *msg;
+            NSString *title;
+            if(error == nil) {
+                
+                title = @"Your submission was successful.";
+                msg = @"Your BCycle Station location has been saved.";
+            }
+            else {
+                
+                title = @"Your submission failed.";
+                msg = @"Something went wrong in the clouds. Please re-submit the location.";
+            }
             
-            title = @"Your submission failed.";
-            msg = @"Something went wrong in the clouds. Please re-submit the location.";
-        }
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-                                                                       message:msg
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  [self dismissViewControllerAnimated:YES completion:nil];
-                                                              }];
-        
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                           message:msg
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                                    style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        });
     }];
 }
 
 - (IBAction)cancelButtonPressed:(UIBarButtonItem *)sender {
-    //NSLog(@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -26,7 +26,6 @@
 #import <MapKit/MapKit.h>
 #import "BCycleStationsViewController.h"
 #import "BCycleServices.h"
-#import "BCycleStation+MKAnnontation.h"
 #import "StationInformationViewController.h"
 
 #if !defined(METERS_PER_MILE)
@@ -35,13 +34,12 @@
 
 @interface BCycleStationsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *launchImageView;
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, strong) CLPlacemark *currentPlacemark;
-@property (nonatomic, strong) BCycleServices *bcycleServcies;
+@property (nonatomic, strong) BCycleServices *bCycleServices;
 @property (nonatomic) BOOL userInteractionCausedRegionChange;
 @property (nonatomic) MKMapRect currentSearchRect;
 @property (nonatomic) MKCoordinateSpan currentSearchSpan;
@@ -70,12 +68,12 @@
     return _locationManager;
 }
 
-- (BCycleServices*)bcycleServcies {
-    if (_bcycleServcies == nil) {
-        _bcycleServcies = [[BCycleServices alloc] init];
+- (BCycleServices*)bCycleServices {
+    if (_bCycleServices == nil) {
+        _bCycleServices = [[BCycleServices alloc] init];
     }
     
-    return _bcycleServcies;
+    return _bCycleServices;
 }
 
 #pragma  mark - ViewController Life Cycle
@@ -90,40 +88,16 @@
     self.userInteractionCausedRegionChange = NO;
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
-    self.mapView.showsBuildings = NO;
     self.mapView.pitchEnabled = YES;
     self.mapView.zoomEnabled = YES;
     self.mapView.rotateEnabled = YES;
-    
-    // fade the launch screen out
-    self.navigationController.navigationBarHidden = YES;
     self.navigationController.navigationBar.tintColor = [UIColor redColor];
     
-    NSDictionary *textAttributes = @{NSForegroundColorAttributeName : [UIColor redColor],
-                                     NSBackgroundColorAttributeName : [UIColor redColor]};
-    
+    NSDictionary *textAttributes = @{NSForegroundColorAttributeName : [UIColor redColor]};
     self.navigationController.navigationBar.titleTextAttributes = textAttributes;
-    self.mapView.hidden = YES;
-    [UIView animateWithDuration:2.0f animations:^{
-        
-        [_launchImageView setAlpha:0.0f];
-        
-    } completion:^(BOOL finished) {
-        
-        self.mapView.hidden = NO;
-        self.launchImageView.hidden = YES;
-        self.navigationController.navigationBarHidden = NO;
-        // get the users location
-        [self.locationManager requestWhenInUseAuthorization];
-        [self.locationManager startUpdatingLocation];
-        
-    }];
-    
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -139,7 +113,7 @@
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:self.currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if(error == nil) {
-            self.currentPlacemark = [placemarks objectAtIndex:0];
+            self.currentPlacemark = placemarks[0];
         }
     }];
     
@@ -168,31 +142,30 @@
     
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-   
-    switch (status) {
+-(void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    
+    switch (self.locationManager.authorizationStatus) {
+            
         case kCLAuthorizationStatusNotDetermined:
         case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusAuthorizedWhenInUse:
-            
             [self.locationManager startUpdatingLocation];
             break;
-            
         case kCLAuthorizationStatusRestricted:
         case kCLAuthorizationStatusDenied:
-        default:
-            
             [self.locationManager stopUpdatingLocation];
             break;
+            
     }
-    
 }
 
 #pragma mark - MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    //self.mapView.centerCoordinate = userLocation.coordinate;
     MKCoordinateRegion region = [self createViewableRegionForLocation:userLocation.coordinate andDistance:0.5f];
+    if (self.userInteractionCausedRegionChange == NO) {
+        [self addAnnotationsForRegion:region];
+    }
     [self.mapView setRegion:region animated:YES];
 }
 
@@ -216,17 +189,15 @@
             if (!MKMapRectContainsRect(self.currentSearchRect, viewableRect)) {
                 // the user has zoomed out but the viewable region's center point is still
                 // within the current search map rect. We will use the current region center
-                // and increase the span by some precentage to create a new search region (map rect)
-                //NSLog(@"[%@ %@] viewable rect not in the current rect. LOAD DATA", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+                // and increase the span by some percentage to create a new search region (map rect)
                 MKCoordinateRegion region = [self createNewSearchRegionForRegion:mapView.region];
                 [self addAnnotationsForRegion:region];
             }
         }
         else {
-            // the user may have zoomed out, but none the less the region center is outside the
+            // the user may have zoomed out, but nonetheless the region center is outside the
             // current search map rect. We will use the current region center and increase
-            // the span by some precentage to create a new search region (map rect)
-            //NSLog(@"[%@ %@]map point not in current rect. LOAD DATA", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            // the span by some percentage to create a new search region (map rect)
             MKCoordinateRegion region = [self createNewSearchRegionForRegion:mapView.region];
             [self addAnnotationsForRegion:region];
         }
@@ -245,18 +216,18 @@
         view = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([annotation class])];
         
         if(!view) {
-            MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
-                                                                       reuseIdentifier:NSStringFromClass([annotation class])];
-            pin.canShowCallout = YES;
-            pin.enabled = YES;
-            pin.draggable = NO;
-            pin.pinTintColor = [MKPinAnnotationView redPinColor];
+            MKMarkerAnnotationView *marker = [[MKMarkerAnnotationView alloc] initWithAnnotation:annotation
+                                                                             reuseIdentifier:NSStringFromClass([annotation class])];
+            marker.canShowCallout = YES;
+            marker.enabled = YES;
+            marker.draggable = NO;
+            marker.markerTintColor = [UIColor redColor];
             
             if([mapView.delegate respondsToSelector:@selector(mapView:annotationView:calloutAccessoryControlTapped:)]) {
-                pin.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                marker.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
             }
-
-            view = pin;
+            
+            view = marker;
         }
         else {
             // set the annotation for the view
@@ -278,7 +249,7 @@
         if ([sender isKindOfClass:[MKAnnotationView class]]) {
             MKAnnotationView *aView = sender;
             if ([aView.annotation isKindOfClass:[BCycleStation class]]) {
-                BCycleStation *station = aView.annotation;
+                BCycleStation *station = (id) aView.annotation;
                 if ([segue.destinationViewController respondsToSelector:@selector(setStation:)]) {
                     [segue.destinationViewController performSelector:@selector(setStation:)
                                                           withObject:station];
@@ -298,25 +269,24 @@
 
 - (void)addAnnotationsForRegion:(MKCoordinateRegion)region
 {
-    [self.bcycleServcies getStationsInRegion:region withCompletion:^(NSArray *result, NSError *error) {
+    [self.bCycleServices getStationsInRegion:region withCompletion:^(NSArray *result, NSError *error) {
         
-        //NSLog(@"[%@ %@] result count: %ld", NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)result.count);
         if(result.count > 0) {
-            dispatch_queue_t geoQue = dispatch_queue_create("geoQue", 0);
+            dispatch_queue_t geoQue = dispatch_queue_create("geoQue", (dispatch_queue_attr_t) 0);
             dispatch_async(geoQue, ^{
                 
                 NSMutableArray *bikes = [[NSMutableArray alloc] init];
                 for (NSDictionary *station in result) {
-                    CLLocationDegrees latitude = [[station valueForKey:@"Latitude"] floatValue];
-                    CLLocationDegrees longitude = [[station valueForKey:@"Longitude"] floatValue];
+                    CLLocationDegrees latitude = [[station valueForKey:@"latitude"] floatValue];
+                    CLLocationDegrees longitude = [[station valueForKey:@"longitude"] floatValue];
                     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
                     
                     BCycleStation *bc = [[BCycleStation alloc] initWithCoordinate:location];
-                    [bc setName:[station valueForKey:@"Name"]];
-                    [bc setStreet:[station valueForKey:@"Street"]];
-                    [bc setCity:[station valueForKey:@"City"]];
-                    [bc setState:[station valueForKey:@"State"]];
-                    [bc setZip:[station valueForKey:@"Zip"]];
+                    [bc setName:[station valueForKey:@"name"]];
+                    [bc setStreet:[station valueForKey:@"street"]];
+                    [bc setCity:[station valueForKey:@"city"]];
+                    [bc setState:[station valueForKey:@"state"]];
+                    [bc setZip:[station valueForKey:@"zip"]];
                     
                     [bikes addObject:bc];
                 }
@@ -324,7 +294,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     [self.mapView addAnnotations:bikes];
-
+                    
                 });
             });
         }
@@ -374,18 +344,6 @@
         // since the viewable span's latitude delta is larger than the search span
         // latitude delta we'll add 50% to the viewable region
         span.latitudeDelta += (span.latitudeDelta * 0.5f);
-    }
-    
-    if (span.longitudeDelta < self.currentSearchSpan.longitudeDelta) {
-        // since the viewable span's longitude delta is less than
-        // the search span longitude delta we'll add the diff of the two
-        // to the current viewable span
-        span.longitudeDelta = self.currentSearchSpan.longitudeDelta + (self.currentSearchSpan.longitudeDelta - span.longitudeDelta);
-    }
-    else {
-        // since the viewable span's longitude delta is larger than the search span
-        // longitude delta we'll add 50% to the viewable region
-        span.longitudeDelta += (span.longitudeDelta * 0.5f);
     }
     
     MKCoordinateRegion newRegion = MKCoordinateRegionMake(region.center, span);
