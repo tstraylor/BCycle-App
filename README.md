@@ -1,22 +1,12 @@
-BCycle
-=======
+# BCycle-App
 
-iOS BCycle application.
+An iOS application to test out some MapKit features.
 
-This app was created to test out the use of REST APIs. This app uses:
-* 1.0.0 - [Docker BCycle API](https://github.com/tstraylor/DockerBCycleAPI_MySQL).
-* 1.1.0 - [Docker BCycle API](https://github.com/tstraylor/DockerBCycleAPI_DB).
+## Setup
 
-## Set up
-
-Before you can run the BCycle iOS application you'll need to clone the 
-[DockerBCycleAPI_DB](https://github.com/tstraylor/DockerBCycleAPI_DB) repo and start
-the database and api dockers.
-
-### Creators
-
-[Thomas Traylor](http://github.com/tstraylor)
+Before you can run the BCycle-App you'll need to clone the 
+[BCycle-Backend](https://github.com/tstraylor/BCycle-Backend) repo and run it.
 
 ## License
 
-BCycle is available under the MIT license. See the License.txt file for more info.
+BCycle-App is available under the MIT license. See the LICENSE file for more info.

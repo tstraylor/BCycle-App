@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D20DA462B37B61B007C5261 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D20DA452B37B61B007C5261 /* LaunchScreen.storyboard */; };
+		1D20DA472B37B75F007C5261 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDCE661A47733A00D51456 /* Images.xcassets */; };
 		1D40BA6A19D1230E008CF6E2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D40BA6919D1230E008CF6E2 /* main.m */; };
 		1D40BA6D19D1230E008CF6E2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D40BA6C19D1230E008CF6E2 /* AppDelegate.m */; };
 		1D40BA7019D1230E008CF6E2 /* BCycleStationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D40BA6F19D1230E008CF6E2 /* BCycleStationsViewController.m */; };
@@ -18,7 +20,6 @@
 		1DA1FE261DE8A585001E244C /* AddBCycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA1FE251DE8A585001E244C /* AddBCycleViewController.m */; };
 		1DDC03D21A4624F2002A220D /* BCycleStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC03D11A4624F2002A220D /* BCycleStation.m */; };
 		1DDC03D81A4626DC002A220D /* BCycleStation+MKAnnontation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC03D71A4626DC002A220D /* BCycleStation+MKAnnontation.m */; };
-		1DEDCE671A47733A00D51456 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDCE661A47733A00D51456 /* Images.xcassets */; };
 		1DF99EA01A619EFE00E60C83 /* Boulder.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1DF99E9F1A619EFE00E60C83 /* Boulder.gpx */; };
 		A9AAA04A19D4C1DC00D928D0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AAA04919D4C1DC00D928D0 /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C1D59425BAB7125012DDA20 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = file.gitignore; path = .gitignore; sourceTree = "<group>"; };
+		1D20DA452B37B61B007C5261 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D40BA6419D1230E008CF6E2 /* BCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D40BA6819D1230E008CF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D40BA6919D1230E008CF6E2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 				1D40BA6619D1230E008CF6E2 /* BCycle */,
 				1D40BA8019D1230E008CF6E2 /* BCycleTests */,
 				1D40BA6519D1230E008CF6E2 /* Products */,
+				1C1D59425BAB7125012DDA20 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +121,7 @@
 				1DA1FE241DE8A585001E244C /* AddBCycleViewController.h */,
 				1DA1FE251DE8A585001E244C /* AddBCycleViewController.m */,
 				1D40BA7119D1230E008CF6E2 /* Main-iPhone.storyboard */,
+				1D20DA452B37B61B007C5261 /* LaunchScreen.storyboard */,
 				1DEDCE661A47733A00D51456 /* Images.xcassets */,
 				1D40BA6719D1230E008CF6E2 /* Supporting Files */,
 			);
@@ -205,7 +210,8 @@
 		1D40BA5C19D1230E008CF6E2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "Thomas Traylor";
 				TargetAttributes = {
 					1D40BA6319D1230E008CF6E2 = {
@@ -227,7 +233,7 @@
 			};
 			buildConfigurationList = 1D40BA5F19D1230E008CF6E2 /* Build configuration list for PBXProject "BCycle" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -250,8 +256,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D80A16D1CA3A386008079E0 /* Houston.gpx in Resources */,
-				1DEDCE671A47733A00D51456 /* Images.xcassets in Resources */,
+				1D20DA472B37B75F007C5261 /* Images.xcassets in Resources */,
 				1D40BA7319D1230E008CF6E2 /* Main-iPhone.storyboard in Resources */,
+				1D20DA462B37B61B007C5261 /* LaunchScreen.storyboard in Resources */,
 				1DF99EA01A619EFE00E60C83 /* Boulder.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,18 +322,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -334,6 +352,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -349,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -361,18 +380,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -380,6 +410,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -388,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -400,11 +431,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BCycle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				INFOPLIST_KEY_CFBundleDisplayName = BCycle;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "";
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -415,11 +448,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BCycle/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				INFOPLIST_KEY_CFBundleDisplayName = BCycle;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "";
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -436,7 +471,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = BCycleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BCycle.app/BCycle";
@@ -449,7 +488,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = BCycleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomastraylor.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BCycle.app/BCycle";

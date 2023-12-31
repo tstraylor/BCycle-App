@@ -30,16 +30,16 @@
  DROP TABLE IF EXISTS Stations;
  CREATE TABLE Stations (
  id integer PRIMARY KEY autoincrement NOT NULL,
- Name text,
- Street text,
- City text,
- State text,
- Zip text,
- Docks real,
- Latitude real,
- Longitude real,
- Created DATETIME DEFAULT CURRENT_TIMESTAMP,
- Updated DATETIME DEFAULT CURRENT_TIMESTAMP
+ name text,
+ street text,
+ city text,
+ state text,
+ zip text,
+ docks real,
+ latitude real,
+ longitude real,
+ created DATETIME DEFAULT CURRENT_TIMESTAMP,
+ updated DATETIME DEFAULT CURRENT_TIMESTAMP
  );
  */
 
@@ -48,7 +48,8 @@
 #endif
 
 // the ip and port of the bcycle api server
-static NSString *ipPort = @"192.168.1.168:8080";
+//static NSString *ipPort = @"192.168.1.175:8080";
+static NSString *ipPort = @"localhost:80";
 
 @interface BCycleServices()
 
@@ -68,23 +69,40 @@ static NSString *ipPort = @"192.168.1.168:8080";
 
 - (void)getStationsWithCompletion:(StationCompletionBlock)completion {
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station", ipPort]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/v1/stations", ipPort]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"GET";
     
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data.length > 0 && !error) {
-            
-            NSError *jsonError = nil;
-            NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options:NSJSONReadingMutableContainers
-                                                                     error:&jsonError];
-            completion(stationData, error);
-            
-        }
-        else
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
             completion(nil, error);
+        }
+        else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            
+            if (statusCode != 200) {
+                NSError *jsonError = nil;
+                NSDictionary *errMsg = [NSJSONSerialization JSONObjectWithData:data
+                                                                  options:NSJSONReadingMutableContainers
+                                                                    error:&jsonError];
+                
+                NSError *error = [[NSError alloc] initWithDomain:@"BCycle"
+                                                            code:statusCode
+                                                        userInfo:@{@"Error reason": errMsg[@"message"]}];
+                completion(nil, error);
+            }
+            else {
+                NSError *jsonError = nil;
+                NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:&jsonError];
+                
+                completion(stationData, error);
+            }
+        }
     }];
     
     [task resume];
@@ -93,25 +111,41 @@ static NSString *ipPort = @"192.168.1.168:8080";
 - (void)getStationsInRegion:(MKCoordinateRegion)region withCompletion:(StationCompletionBlock)completion {
     
     CLLocationDistance distanceInMiles = [self maxDistance:region];
-
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station?Latitude=%f&Longitude=%f&Distance=%f", ipPort, region.center.latitude, region.center.longitude, distanceInMiles]];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/v1/stations?latitude=%f&longitude=%f&distance=%f", ipPort, region.center.latitude, region.center.longitude, distanceInMiles]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"GET";
     
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data.length > 0 && !error) {
-            
-            NSError *jsonError = nil;
-            NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options:NSJSONReadingMutableContainers
-                                                                     error:&jsonError];
-
-            completion(stationData, error);
-            
-        }
-        else
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
             completion(nil, error);
+        }
+        else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            
+            if (statusCode != 200) {
+                NSError *jsonError = nil;
+                NSDictionary *errMsg = [NSJSONSerialization JSONObjectWithData:data
+                                                                  options:NSJSONReadingMutableContainers
+                                                                    error:&jsonError];
+                
+                NSError *error = [[NSError alloc] initWithDomain:@"BCycle"
+                                                            code:statusCode
+                                                        userInfo:@{@"Error reason": errMsg[@"message"]}];
+                completion(nil, error);
+            }
+            else {
+                NSError *jsonError = nil;
+                NSArray *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:&jsonError];
+                
+                completion(stationData, error);
+            }
+        }
+        
     }];
     
     [task resume];
@@ -120,16 +154,16 @@ static NSString *ipPort = @"192.168.1.168:8080";
 - (void)createStation:(BCycleStation*)station WithCompletion:(StationCompletionBlockWithResult)completion {
     
     NSError *error;
-    NSDictionary *bcycle = @{@"Name": station.name,
-                             @"Street": station.street,
-                             @"City": station.city,
-                             @"State": station.state,
-                             @"Zip": station.zip,
-                             @"Docks": station.docks,
-                             @"Latitude": [NSNumber numberWithDouble: station.location.latitude],
-                             @"Longitude": [NSNumber numberWithFloat: station.location.longitude]};
+    NSDictionary *bcycle = @{@"name": station.name,
+                             @"street": station.street,
+                             @"city": station.city,
+                             @"state": station.state,
+                             @"zip": station.zip,
+                             @"docks": station.docks,
+                             @"latitude": [NSNumber numberWithDouble: station.location.latitude],
+                             @"longitude": [NSNumber numberWithFloat: station.location.longitude]};
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/v1/station", ipPort]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/api/v1/stations", ipPort]];
     NSMutableURLRequest *stationRequest = [NSMutableURLRequest requestWithURL:url];
     stationRequest.HTTPMethod = @"POST";
     [stationRequest setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
@@ -138,19 +172,35 @@ static NSString *ipPort = @"192.168.1.168:8080";
                                                               options:NSJSONWritingPrettyPrinted
                                                                 error:&error];
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if(data.length > 0 && !error) {
-            
-            NSError *jsonError = nil;
-            NSDictionary *stationData = [NSJSONSerialization JSONObjectWithData:data
-                                                                        options:NSJSONReadingMutableContainers
-                                                                          error:&jsonError];
-            
-            completion(stationData, error);
-            
-        }
-        else
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:stationRequest
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
             completion(nil, error);
+        }
+        else if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            
+            if (statusCode != 201) {
+                NSError *jsonError = nil;
+                NSDictionary *errMsg = [NSJSONSerialization JSONObjectWithData:data
+                                                                  options:NSJSONReadingMutableContainers
+                                                                    error:&jsonError];
+                
+                NSError *error = [[NSError alloc] initWithDomain:@"BCycle"
+                                                            code:statusCode
+                                                        userInfo:@{@"Error reason": errMsg[@"message"]}];
+                completion(nil, error);
+            }
+            else {
+                NSError *jsonError = nil;
+                NSDictionary *stationData = [NSJSONSerialization JSONObjectWithData:data
+                                                                            options:NSJSONReadingMutableContainers
+                                                                              error:&jsonError];
+                
+                completion(stationData, error);
+            }
+        }
+        
     }];
     
     [task resume];
@@ -160,7 +210,7 @@ static NSString *ipPort = @"192.168.1.168:8080";
 #pragma mark - Private Methods
 
 - (CLLocationDistance)maxDistance:(MKCoordinateRegion)region {
-
+    
     CLLocation *furthest = [[CLLocation alloc] initWithLatitude: (region.center.latitude + (region.span.latitudeDelta/2))
                                                       longitude: (region.center.longitude + (region.span.longitudeDelta/2))];
     CLLocation *centerLoc = [[CLLocation alloc] initWithLatitude: region.center.latitude

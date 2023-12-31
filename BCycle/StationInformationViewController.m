@@ -31,7 +31,6 @@
     
     MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
     options.region  = region;
-    //options.mapType = MKMapTypeSatellite;
     options.mapType = MKMapTypeHybrid;
     options.scale = 1.0;
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -39,12 +38,9 @@
     else
         options.size = CGSizeMake(320.0, 240.0);
     
-    options.showsPointsOfInterest = YES;
-    
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     [snapShotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
         
-        //NSLog(@"[%@ %@] snap shotter", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
         if(error)
             NSLog(@"[%@ %@] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), error.localizedDescription);
         
@@ -63,11 +59,6 @@
     self.cityStateZip.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     self.cityStateZip.text = [NSString stringWithFormat:@"%@, %@ %@", self.station.city, self.station.state, self.station.zip];
 
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
