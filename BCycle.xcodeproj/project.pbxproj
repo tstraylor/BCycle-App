@@ -3,18 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D0C084B2BA3C70B00C9B7E6 /* AddStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C084A2BA3C70B00C9B7E6 /* AddStationViewModel.swift */; };
+		1D11112C2B7050CC003CB682 /* LocationFormatter in Frameworks */ = {isa = PBXBuildFile; productRef = 1D11112B2B7050CC003CB682 /* LocationFormatter */; };
+		1D4F54672CB200DD0068A004 /* StationClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4F54662CB200DD0068A004 /* StationClusterAnnotationView.swift */; };
+		1D4F54692CB3024D0068A004 /* StationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4F54682CB3024D0068A004 /* StationAnnotationView.swift */; };
 		1D511FE5258086F100D49C71 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D511FE4258086F100D49C71 /* AppDelegate.swift */; };
 		1D511FE7258086F100D49C71 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D511FE6258086F100D49C71 /* SceneDelegate.swift */; };
-		1D511FE9258086F100D49C71 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D511FE8258086F100D49C71 /* ViewController.swift */; };
-		1D511FEC258086F100D49C71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D511FEA258086F100D49C71 /* Main.storyboard */; };
-		1D511FEE258086F300D49C71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D511FED258086F300D49C71 /* Assets.xcassets */; };
 		1D511FF1258086F300D49C71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D511FEF258086F300D49C71 /* LaunchScreen.storyboard */; };
 		1D511FFC258086F300D49C71 /* BCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D511FFB258086F300D49C71 /* BCycleTests.swift */; };
 		1D512007258086F300D49C71 /* BCycleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D512006258086F300D49C71 /* BCycleUITests.swift */; };
+		1D51201925808A5D00D49C71 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D51201825808A5D00D49C71 /* Station.swift */; };
+		1D52701C2CC568FA00924E8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D511FED258086F300D49C71 /* Assets.xcassets */; };
+		1D5C72D42B6570A700A0E3B3 /* StationInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C72D32B6570A700A0E3B3 /* StationInformationViewController.swift */; };
+		1D5C72D82B66D54600A0E3B3 /* AddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C72D72B66D54600A0E3B3 /* AddressTableViewCell.swift */; };
+		1D91158F2B6F274E008BD4F9 /* DistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D91158E2B6F274E008BD4F9 /* DistanceTableViewCell.swift */; };
+		1D9115912B703437008BD4F9 /* DroppedPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9115902B703437008BD4F9 /* DroppedPinViewController.swift */; };
+		1D9115932B703AF4008BD4F9 /* CoordinatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9115922B703AF4008BD4F9 /* CoordinatesTableViewCell.swift */; };
+		1DDF5CE32B423EA800F6A202 /* BCycleApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF5CE22B423EA800F6A202 /* BCycleApiService.swift */; };
+		1DDF5CE62B4241B000F6A202 /* BCycleApiFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF5CE52B4241B000F6A202 /* BCycleApiFailure.swift */; };
+		1DDF5CE82B42439900F6A202 /* DatabaseDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF5CE72B42439900F6A202 /* DatabaseDate.swift */; };
+		1DDF5CEA2B432F4500F6A202 /* BCycleStationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF5CE92B432F4500F6A202 /* BCycleStationsViewController.swift */; };
+		1DDF5CEC2B4341B100F6A202 /* AddStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDF5CEB2B4341B100F6A202 /* AddStationViewController.swift */; };
+		1DDF5CF02B4382BC00F6A202 /* Denver.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1DDF5CED2B4382BB00F6A202 /* Denver.gpx */; };
+		1DDF5CF12B4382BC00F6A202 /* Houston.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1DDF5CEE2B4382BB00F6A202 /* Houston.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,11 +50,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D0C084A2BA3C70B00C9B7E6 /* AddStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStationViewModel.swift; sourceTree = "<group>"; };
+		1D4F54662CB200DD0068A004 /* StationClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationClusterAnnotationView.swift; sourceTree = "<group>"; };
+		1D4F54682CB3024D0068A004 /* StationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAnnotationView.swift; sourceTree = "<group>"; };
 		1D511FE1258086F100D49C71 /* BCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D511FE4258086F100D49C71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D511FE6258086F100D49C71 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1D511FE8258086F100D49C71 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1D511FEB258086F100D49C71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1D511FED258086F300D49C71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D511FF0258086F300D49C71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D511FF2258086F300D49C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +65,19 @@
 		1D512002258086F300D49C71 /* BCycleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BCycleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D512006258086F300D49C71 /* BCycleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCycleUITests.swift; sourceTree = "<group>"; };
 		1D512008258086F300D49C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D51201825808A5D00D49C71 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		1D5C72D32B6570A700A0E3B3 /* StationInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInformationViewController.swift; sourceTree = "<group>"; };
+		1D5C72D72B66D54600A0E3B3 /* AddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTableViewCell.swift; sourceTree = "<group>"; };
+		1D91158E2B6F274E008BD4F9 /* DistanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTableViewCell.swift; sourceTree = "<group>"; };
+		1D9115902B703437008BD4F9 /* DroppedPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroppedPinViewController.swift; sourceTree = "<group>"; };
+		1D9115922B703AF4008BD4F9 /* CoordinatesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesTableViewCell.swift; sourceTree = "<group>"; };
+		1DDF5CE22B423EA800F6A202 /* BCycleApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCycleApiService.swift; sourceTree = "<group>"; };
+		1DDF5CE52B4241B000F6A202 /* BCycleApiFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCycleApiFailure.swift; sourceTree = "<group>"; };
+		1DDF5CE72B42439900F6A202 /* DatabaseDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseDate.swift; sourceTree = "<group>"; };
+		1DDF5CE92B432F4500F6A202 /* BCycleStationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCycleStationsViewController.swift; sourceTree = "<group>"; };
+		1DDF5CEB2B4341B100F6A202 /* AddStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStationViewController.swift; sourceTree = "<group>"; };
+		1DDF5CED2B4382BB00F6A202 /* Denver.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Denver.gpx; sourceTree = "<group>"; };
+		1DDF5CEE2B4382BB00F6A202 /* Houston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Houston.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D11112C2B7050CC003CB682 /* LocationFormatter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,10 +129,22 @@
 		1D511FE3258086F100D49C71 /* BCycle */ = {
 			isa = PBXGroup;
 			children = (
+				1DDF5CED2B4382BB00F6A202 /* Denver.gpx */,
+				1DDF5CEE2B4382BB00F6A202 /* Houston.gpx */,
+				1DDF5CE42B423FA500F6A202 /* APIs */,
+				1D51201725808A3F00D49C71 /* Models */,
 				1D511FE4258086F100D49C71 /* AppDelegate.swift */,
 				1D511FE6258086F100D49C71 /* SceneDelegate.swift */,
-				1D511FE8258086F100D49C71 /* ViewController.swift */,
-				1D511FEA258086F100D49C71 /* Main.storyboard */,
+				1DDF5CE92B432F4500F6A202 /* BCycleStationsViewController.swift */,
+				1D5C72D32B6570A700A0E3B3 /* StationInformationViewController.swift */,
+				1DDF5CEB2B4341B100F6A202 /* AddStationViewController.swift */,
+				1D0C084A2BA3C70B00C9B7E6 /* AddStationViewModel.swift */,
+				1D9115902B703437008BD4F9 /* DroppedPinViewController.swift */,
+				1D5C72D72B66D54600A0E3B3 /* AddressTableViewCell.swift */,
+				1D9115922B703AF4008BD4F9 /* CoordinatesTableViewCell.swift */,
+				1D91158E2B6F274E008BD4F9 /* DistanceTableViewCell.swift */,
+				1D4F54662CB200DD0068A004 /* StationClusterAnnotationView.swift */,
+				1D4F54682CB3024D0068A004 /* StationAnnotationView.swift */,
 				1D511FED258086F300D49C71 /* Assets.xcassets */,
 				1D511FEF258086F300D49C71 /* LaunchScreen.storyboard */,
 				1D511FF2258086F300D49C71 /* Info.plist */,
@@ -128,6 +170,24 @@
 			path = BCycleUITests;
 			sourceTree = "<group>";
 		};
+		1D51201725808A3F00D49C71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1DDF5CE72B42439900F6A202 /* DatabaseDate.swift */,
+				1D51201825808A5D00D49C71 /* Station.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1DDF5CE42B423FA500F6A202 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				1DDF5CE22B423EA800F6A202 /* BCycleApiService.swift */,
+				1DDF5CE52B4241B000F6A202 /* BCycleApiFailure.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,6 +204,9 @@
 			dependencies = (
 			);
 			name = BCycle;
+			packageProductDependencies = (
+				1D11112B2B7050CC003CB682 /* LocationFormatter */,
+			);
 			productName = BCycle;
 			productReference = 1D511FE1258086F100D49C71 /* BCycle.app */;
 			productType = "com.apple.product-type.application";
@@ -190,8 +253,9 @@
 		1D511FD9258086F100D49C71 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					1D511FE0258086F100D49C71 = {
 						CreatedOnToolsVersion = 12.2;
@@ -215,6 +279,9 @@
 				Base,
 			);
 			mainGroup = 1D511FD8258086F100D49C71;
+			packageReferences = (
+				1D11112A2B7050CC003CB682 /* XCRemoteSwiftPackageReference "LocationFormatter" */,
+			);
 			productRefGroup = 1D511FE2258086F100D49C71 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -231,9 +298,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DDF5CF12B4382BC00F6A202 /* Houston.gpx in Resources */,
 				1D511FF1258086F300D49C71 /* LaunchScreen.storyboard in Resources */,
-				1D511FEE258086F300D49C71 /* Assets.xcassets in Resources */,
-				1D511FEC258086F100D49C71 /* Main.storyboard in Resources */,
+				1DDF5CF02B4382BC00F6A202 /* Denver.gpx in Resources */,
+				1D52701C2CC568FA00924E8A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +326,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D511FE9258086F100D49C71 /* ViewController.swift in Sources */,
+				1DDF5CE32B423EA800F6A202 /* BCycleApiService.swift in Sources */,
 				1D511FE5258086F100D49C71 /* AppDelegate.swift in Sources */,
+				1DDF5CEC2B4341B100F6A202 /* AddStationViewController.swift in Sources */,
+				1D5C72D42B6570A700A0E3B3 /* StationInformationViewController.swift in Sources */,
+				1DDF5CE62B4241B000F6A202 /* BCycleApiFailure.swift in Sources */,
+				1D9115912B703437008BD4F9 /* DroppedPinViewController.swift in Sources */,
+				1DDF5CE82B42439900F6A202 /* DatabaseDate.swift in Sources */,
+				1D0C084B2BA3C70B00C9B7E6 /* AddStationViewModel.swift in Sources */,
+				1D9115932B703AF4008BD4F9 /* CoordinatesTableViewCell.swift in Sources */,
+				1D51201925808A5D00D49C71 /* Station.swift in Sources */,
+				1D91158F2B6F274E008BD4F9 /* DistanceTableViewCell.swift in Sources */,
 				1D511FE7258086F100D49C71 /* SceneDelegate.swift in Sources */,
+				1D4F54672CB200DD0068A004 /* StationClusterAnnotationView.swift in Sources */,
+				1D4F54692CB3024D0068A004 /* StationAnnotationView.swift in Sources */,
+				1D5C72D82B66D54600A0E3B3 /* AddressTableViewCell.swift in Sources */,
+				1DDF5CEA2B432F4500F6A202 /* BCycleStationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,14 +377,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1D511FEA258086F100D49C71 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D511FEB258086F100D49C71 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1D511FEF258086F300D49C71 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -319,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -352,6 +426,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -366,7 +441,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -380,6 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -413,6 +489,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -421,7 +498,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -439,13 +516,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomastraylor.BCycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY_DEFAULT = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -458,13 +537,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomastraylor.BCycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY_DEFAULT = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -472,12 +553,11 @@
 		1D51200F258086F300D49C71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,12 +574,11 @@
 		1D512010258086F300D49C71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -516,10 +595,10 @@
 		1D512012258086F300D49C71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -536,10 +615,10 @@
 		1D512013258086F300D49C71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NMGM54BDKA;
 				INFOPLIST_FILE = BCycleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -593,6 +672,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1D11112A2B7050CC003CB682 /* XCRemoteSwiftPackageReference "LocationFormatter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/salishseasoftware/LocationFormatter";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1D11112B2B7050CC003CB682 /* LocationFormatter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1D11112A2B7050CC003CB682 /* XCRemoteSwiftPackageReference "LocationFormatter" */;
+			productName = LocationFormatter;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D511FD9258086F100D49C71 /* Project object */;
 }
